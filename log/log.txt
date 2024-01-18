@@ -1,0 +1,25 @@
+2024-01-17 16:47:18,754 - LogCollector - INFO - 保存音频片段 1/4.0: files/split_audio/游戏解说_PUBG\游戏解说_PUBG_split_1.wav
+2024-01-17 16:47:20,314 - LogCollector - INFO - 保存音频片段 2/4.0: files/split_audio/游戏解说_PUBG\游戏解说_PUBG_split_2.wav
+2024-01-17 16:47:21,925 - LogCollector - INFO - 保存音频片段 3/4.0: files/split_audio/游戏解说_PUBG\游戏解说_PUBG_split_3.wav
+2024-01-17 16:47:23,134 - LogCollector - INFO - 保存音频片段 4/4.0: files/split_audio/游戏解说_PUBG\游戏解说_PUBG_split_4.wav
+2024-01-17 16:47:23,134 - LogCollector - INFO - 所有 4.0 音频片段文件被保存至 files/split_audio/游戏解说_PUBG。
+2024-01-17 16:47:24,944 - LogCollector - INFO - 保存音频片段 1/4.0: files/split_audio/电影解说_推理笔记\电影解说_推理笔记_split_1.wav
+2024-01-17 16:47:26,554 - LogCollector - INFO - 保存音频片段 2/4.0: files/split_audio/电影解说_推理笔记\电影解说_推理笔记_split_2.wav
+2024-01-17 16:47:28,165 - LogCollector - INFO - 保存音频片段 3/4.0: files/split_audio/电影解说_推理笔记\电影解说_推理笔记_split_3.wav
+2024-01-17 16:47:29,654 - LogCollector - INFO - 保存音频片段 4/4.0: files/split_audio/电影解说_推理笔记\电影解说_推理笔记_split_4.wav
+2024-01-17 16:47:29,654 - LogCollector - INFO - 所有 4.0 音频片段文件被保存至 files/split_audio/电影解说_推理笔记。
+2024-01-17 17:44:57,787 - LogCollector - INFO - 正在解析视频文件 歌曲_云烟成雨
+2024-01-17 17:44:57,788 - LogCollector - INFO - 正在解析视频文件 游戏解说_PUBG
+2024-01-17 17:44:57,789 - LogCollector - INFO - 正在解析视频文件 电影解说_推理笔记
+2024-01-17 17:45:20,577 - LogCollector - INFO - 正在解析视频文件 asr_speaker_demo
+2024-01-17 17:45:20,577 - LogCollector - INFO - 正在解析视频文件 歌曲_云烟成雨
+2024-01-17 17:45:20,577 - LogCollector - INFO - 正在解析视频文件 电影解说_推理笔记
+2024-01-17 17:45:20,577 - LogCollector - INFO - 正在解析视频文件 游戏解说_PUBG
+2024-01-17 17:48:22,655 - LogCollector - INFO - 正在解析视频文件 asr_speaker_demo
+2024-01-17 17:48:22,655 - LogCollector - INFO - 正在解析视频文件 歌曲_云烟成雨
+2024-01-17 17:48:22,655 - LogCollector - INFO - 正在解析视频文件 游戏解说_PUBG
+2024-01-17 17:48:22,655 - LogCollector - INFO - 正在解析视频文件 电影解说_推理笔记
+2024-01-17 17:57:34,356 - LogCollector - ERROR - 解析视频 asr_speaker_demo 时报错,报错原因是L Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU.
+2024-01-17 17:57:46,336 - LogCollector - ERROR - 解析视频 歌曲_云烟成雨 时报错,报错原因是L Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU.
+2024-01-17 17:57:54,906 - LogCollector - ERROR - 解析视频 游戏解说_PUBG 时报错,报错原因是L Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU.
+2024-01-17 17:57:55,036 - LogCollector - ERROR - 解析视频 电影解说_推理笔记 时报错,报错原因是L Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False. If you are running on a CPU-only machine, please use torch.load with map_location=torch.device('cpu') to map your storages to the CPU.
