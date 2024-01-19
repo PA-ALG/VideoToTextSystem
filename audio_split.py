@@ -14,7 +14,7 @@ class Splitter:
             os.mkdir('files/split_audio/')
 
     def split_audio(self, input_file, output_dir,
-                    split_duration=300):  # split_duration is in seconds, 5 minutes = 300 seconds
+                    split_duration=180):  # split_duration is in seconds, 5 minutes = 300 seconds
         # 确保输出目录存在
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
@@ -23,7 +23,7 @@ class Splitter:
         audio_clip = AudioFileClip(input_file)
         # 获取音频的总时长（秒）
         audio_duration = audio_clip.duration
-        if audio_duration > 300:
+        if audio_duration > 180:
             # 计算分段的数量
             num_splits = (audio_duration + split_duration - 1) // split_duration
             # 遍历每个分段并保存
