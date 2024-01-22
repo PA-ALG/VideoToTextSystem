@@ -27,9 +27,11 @@ class AudioParser:
         rec_result = self.inference_pipeline(audio_in=self.audio_in, batch_size_token=5000, batch_size_token_threshold_s=40, max_single_segment_time=6000)
         print(rec_result)
 
-def check(source_dir, objective_dir):
-    if len(objective_dir) == len(source_dir):
-        return True
+def check(source_dir, object_dir):
+    source_videos_count = len(os.lisdir(source_dir))
+    object_videos_count = len(os.lisdir(object_dir))
+    if object_videos_count == source_videos_count:
+        return source_videos_count, object_videos_count
 
     else:
         return False
@@ -37,12 +39,27 @@ def check(source_dir, objective_dir):
 # @ray.remote
 def main(i):
     # 视频转文本
+    if not os.path.exists('results/'):
+        os.mkdir('results/')
     parsed_files = os.listdir("files/split_audio/")
-    for dir in [parsed_files[i]]:
+    # 给10个进程分配任务
+    if len(parsed_files) <= 10:
+        file_last_circle = parsed_files
+    else:
+        i += 1
+        if len(parsed_files) % 10 == 0:
+            num = int(len(parsed_files) / 10)
+        else:
+            num = int(len(parsed_files) // 10) + 1
+        file_list_circle = parsed_files[(i-1)*num:i*num]
+    # 遍历执行解析任务
+    for dir in file_last_circle:
         try:
             print("正在解析视频文件 %s" % dir)
             logger.collect("正在解析视频文件 %s" % dir, logging.INFO)
             file_dir = "files/split_audio/" + dir
+            if not os.path.exists(file_dir):
+                os.mkdir(file_dir)
             files_count = len(os.listdir(file_dir))
             if files_count == 1:
                 file_path = os.path.join(file_dir, dir) + '.wav'
@@ -61,6 +78,12 @@ def main(i):
                         ap = AudioParser(file_path, output_file_path)
                         ap.parsing()
                     except Exception as e:
+                        file_path = os.path.join(file_dir, dir) + '_split_' + str(i) + '.wav'
+                        if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}'):
+                            os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}')
+                        if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/'):
+                            os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/')
+                        open('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/text_with_punc', 'w', encoding='utf-8')
                         pirint("%s 可能原因：视频片段没有声音。文件路径： %s" % (e, file_path))
                         logger.collect("%s 可能原因：视频片段没有声音。文件路径： %s" % (e, file_path), logging.WARNING)
                 print("解析视频文件 %s 已完成" % dir, logging.INFO)
