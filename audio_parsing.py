@@ -41,7 +41,7 @@ def main(i):
     # 视频转文本
     if not os.path.exists('files/results/'):
         os.mkdir('files/results/')
-    parsed_files = os.listdir("files/split_audio/")
+    parsed_files = os.listdir('files/split_audio/')
     # 给10个进程分配任务
     if len(parsed_files) <= 10:
         if i < len(parsed_files):
