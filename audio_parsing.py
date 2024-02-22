@@ -57,7 +57,7 @@ def main(i):
             num = int(len(parsed_files) // 10) + 1
         file_list_circle = parsed_files[(i-1)*num:i*num]
     # 遍历执行解析任务
-    for dir in file_last_circle:
+    for dir in file_list_circle:
         print("正在解析视频文件 %s" % dir)
         logger.collect("正在解析视频文件 %s" % dir, logging.INFO)
         file_dir = 'files/split_audio/' + dir
