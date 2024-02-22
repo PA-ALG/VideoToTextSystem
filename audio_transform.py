@@ -52,6 +52,10 @@ if __name__ == '__main__':
                 # 若存在wav文件则复制到转后目录
                 elif file_extension == ".wav":
                     shutil.copy(input_file, output_file)
+                    
         except Exception as e:
-            logger.collect(e, logging.ERROR)
-            print(e)
+            input_file = 'files/videos/%s' % file
+            print("%s 可能的原因：视频文件错误。文件路径为: %s" % (e, input_file))
+            logger.collect("%s 可能的原因：视频文件错误。文件路径为: %s" % (e, input_file), logging.ERROR)
+
+    audio_converter.check()
