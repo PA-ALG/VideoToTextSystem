@@ -7,10 +7,9 @@ PARENT_DIR=(dirname $SCRIPT_DIR)
 # 指定含有文件的文件夹路径
 SOURCE_DIR="$PARENT_DIR/output"
 # 指定含有子文件夹的文件夹路径
+DEST_DIR="$PARENT_DIR/files/videos"
 DEST_DIR_1="$PARENT_DIR/files/output_audio"
-# 指定含有子文件夹的文件夹路径
 DEST_DIR_2="$PARENT_DIR/files/split_audio"
-# 指定含有子文件夹的文件夹路径
 DEST_DIR_3="$PARENT_DIR/files/results"
 
 # 创建一个空的关联数组(哈希表)来存储文件名(不含扩展名)
