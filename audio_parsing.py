@@ -90,39 +90,40 @@ def main(i):
                 print("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path))
                 logger.collect("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path), logging.WARNING)
 
-            else:
-                for i in range(1, files_count + 1):
-                    file_path = os.path.join(file_dir, dir) + '_split_' + str(i) + '.wav'
-                    print("文件路径: %s" % file_path)
-                    output_file_path = file_path.replace('split_audio', 'results').replace('.wav', '')
-                    try:
-                        if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/text_with_punc')
-                            # 视频转为文本
-                            ap = AudioParser(file_path, output_file_path)
-                            ap.parsing()
-                        else:
-                            print("视频片段 %s 已转换成功,跳过。" % file_path)
-                            logger.collect("视频片段 %s 已转换成功,跳过。" % file_path, logging.INFO)
-                    except Exception as e:
-                        file_path = os.path.join(file_dir, dir) + '_split_' + str(i) + '.wav'
-                        if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}/'):
-                            os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}')
-                        if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/'):
-                            os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/')
-                        text_with_punc = open('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/text_with_punc', 'w', encoding='utf-8')
-                        text_with_punc.close()
-                        print("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path))
-                logger.collect("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path), logging.WARNING)
-            print("解析视频文件 %s 已完成" % dir)
-            logger.collect("解析视频文件 %s 已完成" % dir, logging.INFO)
-            check_result = check('files/split_audio' + dir, 'files/results/' + dir)
-            if check_result:
-                 print("视频文件 %s 解析完整" % dir, logging.INFO)
-                 logger.collect("视频文件 %s 解析完整" % dir, logging.INFO)
-             else:
-                 print("视频文件 %s 解析不完整，系统将自动删除。" % dir)
-                 logger.collect("视频文件 %s 解析不完整，系统将自动删除。" % dir, logging.INFO)
-                  os.remove('files/results/' + dir)
+        else:
+               for i in range(1, files_count + 1):
+                file_path = os.path.join(file_dir, dir) + '_split_' + str(i) + '.wav'
+                 print("文件路径: %s" % file_path)
+                  output_file_path = file_path.replace('split_audio', 'results').replace('.wav', '')
+                try:
+                    if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/text_with_punc')
+                        # 视频转为文本
+                          ap = AudioParser(file_path, output_file_path)
+                        ap.parsing()
+                    else:
+                        print("视频片段 %s 已转换成功,跳过。" % file_path)
+                        logger.collect("视频片段 %s 已转换成功,跳过。" % file_path, logging.INFO)
+                except Exception as e:
+                     file_path = os.path.join(file_dir, dir) + '_split_' + str(i) + '.wav'
+                     if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}/'):
+                        os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}')
+                    if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/'):
+                           os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/')
+                    text_with_punc = open('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/text_with_punc', 'w', encoding='utf-8')
+                    text_with_punc.close()
+                    print("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path))
+                    logger.collect("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path), logging.WARNING)
+        
+        print("解析视频文件 %s 已完成" % dir)
+        logger.collect("解析视频文件 %s 已完成" % dir, logging.INFO)
+        check_result = check('files/split_audio' + dir, 'files/results/' + dir)
+        if check_result:
+            print("视频文件 %s 解析完整" % dir, logging.INFO)
+            logger.collect("视频文件 %s 解析完整" % dir, logging.INFO)
+        else:
+            print("视频文件 %s 解析不完整，系统将自动删除。" % dir)
+            logger.collect("视频文件 %s 解析不完整，系统将自动删除。" % dir, logging.INFO)
+            os.remove('files/results/' + dir)
                  
     print("第 %d 个进程的全部视频解析完成" % i)
 
