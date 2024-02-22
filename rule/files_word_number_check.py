@@ -22,7 +22,7 @@ if __name__ == '__main__':
               text = f.read()
     check_result = text_word_number_check.check_text(text)
     if check_result:
-      pass
+        pass
     else:
       print("文件: %s" % file + '\n')
       os.remove(file_path)
