@@ -21,6 +21,8 @@ class AudioConverter:
         audio.write_audiofile(wav_file)
 
     def check(self):
+        source_video = os.listdir('files/videos/')
+        object_video = os.listdir('files/output_audio/')
         source_video_count = len(os.listdir('files/videos/'))
         object_video_count = len(os.listdir('files/output_audio/'))
         if object_video_count == source_video_count:
@@ -29,9 +31,9 @@ class AudioConverter:
         else:
             failure_videos = [video for video in source_video_count not in source_video_count]
             print("视频转码完成,但数量不一致。原视频是 %d 个,转码后视频是 %d 个" % (source_video_count, object_video_count))
-            logger.collect("视频转码完成,但数量不一致。原视频是 %d 个,转码后视频是 %d 个" % (source_video_count, object_video_count))
+            logger.collect("视频转码完成,但数量不一致。原视频是 %d 个,转码后视频是 %d 个" % (source_video_count, object_video_count), logging.ERROR)
             print("转码失败的视频有: %s" % ",".join(failure_videos))
-            logger.collect("转码失败的视频有: %s" % ",".join(failure_videos))
+            logger.collect("转码失败的视频有: %s" % ",".join(failure_videos), logging.ERROR)
 
 if __name__ == '__main__':
     # 视频转码
