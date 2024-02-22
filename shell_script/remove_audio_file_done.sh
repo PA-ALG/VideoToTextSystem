@@ -16,7 +16,7 @@ DEST_DIR_3="$PARENT_DIR/files/results"
 declare -A file_names
 
 # 遍历文件夹中的所有文件，并提取不含扩展名的文件名
-for file in "$PARENT_DIR"/*;do
+for file in "$SOURCE_DIR"/*;do
   if [ -f "$file" ]; then
     # 提取文件名,并去除扩展名
     base_name=$(basename "$file" | sed 's/\(.*\)\..*/\1/')
@@ -26,7 +26,7 @@ for file in "$PARENT_DIR"/*;do
 done
 
 # 遍历文件夹中的所有子文件夹
-for file in "$SOURCE_DIR"/*;do
+for file in "$DEST_DIR"/*;do
   if [ -f "$file" ]; then
     # 提取wav文件名称
     file_name=$(basename "$file")
@@ -41,7 +41,7 @@ for file in "$SOURCE_DIR"/*;do
 done
 
 # 遍历文件夹中的所有子文件夹
-for file in "$SOURCE_DIR_1"/*;do
+for file in "$DEST_DIR_1"/*;do
   if [ -f "$file" ]; then
     # 提取wav文件名称
     file_name=$(basename "$file")
@@ -50,13 +50,13 @@ for file in "$SOURCE_DIR_1"/*;do
     if [[ -n ${file_names["$file_name_without_extension"]} ]]; then
       # 如果在列表中找到了匹配的文件名称, 则删除该文件
       rm -rf "$file"
-      echo "Delete wav file: $file"
+      echo "Delete source wav file: $file"
     fi
   fi
 done
 
 # 遍历文件夹中的所有子文件夹
-for dir in "$SOURCE_DIR_2"/*;do
+for dir in "$DEST_DIR_2"/*;do
   if [ -d "$file" ]; then
     # 提取wav文件名称
     dir_name=$(basename "$dir")
@@ -64,13 +64,13 @@ for dir in "$SOURCE_DIR_2"/*;do
     if [[ -n ${file_names["$dir_name"]} ]]; then
       # 如果在列表中找到了匹配的文件名称, 则删除该文件
       rm -rf "$dir"
-      echo "Delete folder split_auio/: $dir"
+      echo "Delete folder split_audio/: $dir"
     fi
   fi
 done
 
 # 遍历文件夹中的所有子文件夹
-for dir in "$SOURCE_DIR_3"/*;do
+for dir in "$DEST_DIR_3"/*;do
   if [ -d "$file" ]; then
     # 提取wav文件名称
     dir_name=$(basename "$dir")
