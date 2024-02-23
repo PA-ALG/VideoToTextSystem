@@ -4,10 +4,12 @@ import os
 import logging
 from utils import log_collector
 import ray
+
 # import threading
 
 ray.init()
 logger = log_collector.Logger(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'log/log.txt'))
+
 
 class AudioParser:
 
@@ -24,8 +26,10 @@ class AudioParser:
         )
 
     def parsing(self):
-        rec_result = self.inference_pipeline(audio_in=self.audio_in, batch_size_token=5000, batch_size_token_threshold_s=40, max_single_segment_time=6000)
+        rec_result = self.inference_pipeline(audio_in=self.audio_in, batch_size_token=5000,
+                                             batch_size_token_threshold_s=40, max_single_segment_time=6000)
         print(rec_result)
+
 
 def check(source_dir, object_dir):
     source_videos_count = len(os.lisdir(source_dir))
@@ -35,6 +39,7 @@ def check(source_dir, object_dir):
 
     else:
         return False
+
 
 @ray.remote
 def main(i):
@@ -48,14 +53,14 @@ def main(i):
             file_last_circle = [parsed_files[i]]
         else:
             return False
-            
+
     else:
         i += 1
         if len(parsed_files) % 10 == 0:
             num = int(len(parsed_files) / 10)
         else:
             num = int(len(parsed_files) // 10) + 1
-        file_list_circle = parsed_files[(i-1)*num:i*num]
+        file_list_circle = parsed_files[(i - 1) * num:i * num]
     # 遍历执行解析任务
     for dir in file_list_circle:
         print("正在解析视频文件 %s" % dir)
@@ -83,7 +88,7 @@ def main(i):
                 if not os.path.exists('files/results' + '/' + dir + '/' + dir + '/1best_recog/'):
                     os.mkdir('files/results' + '/' + dir + '/' + dir + '/1best_recog/')
                 text_with_punc = open(
-                    'files/results' + '/' + dir + '/' + dir + '1best_recog/text_with_punc', 'w', 
+                    'files/results' + '/' + dir + '/' + dir + '1best_recog/text_with_punc', 'w',
                     encoding='utf-8'
                 )
                 text_with_punc.close()
@@ -91,29 +96,29 @@ def main(i):
                 logger.collect("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path), logging.WARNING)
 
         else:
-               for i in range(1, files_count + 1):
+            for i in range(1, files_count + 1):
                 file_path = os.path.join(file_dir, dir) + '_split_' + str(i) + '.wav'
-                 print("文件路径: %s" % file_path)
-                  output_file_path = file_path.replace('split_audio', 'results').replace('.wav', '')
-                try:
-                    if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/text_with_punc')
-                        # 视频转为文本
-                          ap = AudioParser(file_path, output_file_path)
-                        ap.parsing()
-                    else:
-                        print("视频片段 %s 已转换成功,跳过。" % file_path)
-                        logger.collect("视频片段 %s 已转换成功,跳过。" % file_path, logging.INFO)
-                except Exception as e:
-                     file_path = os.path.join(file_dir, dir) + '_split_' + str(i) + '.wav'
-                     if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}/'):
-                        os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}')
-                    if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/'):
-                           os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/')
-                    text_with_punc = open('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/text_with_punc', 'w', encoding='utf-8')
-                    text_with_punc.close()
-                    print("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path))
-                    logger.collect("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path), logging.WARNING)
-        
+                print("文件路径: %s" % file_path)
+                output_file_path = file_path.replace('split_audio', 'results').replace('.wav', '')
+            try:
+                if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/text_with_punc'):
+                    # 视频转为文本
+                    ap = AudioParser(file_path, output_file_path)
+                    ap.parsing()
+                else:
+                    print("视频片段 %s 已转换成功,跳过。" % file_path)
+                    logger.collect("视频片段 %s 已转换成功,跳过。" % file_path, logging.INFO)
+            except Exception as e:
+                file_path = os.path.join(file_dir, dir) + '_split_' + str(i) + '.wav'
+                if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}/'):
+                    os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}')
+                if not os.path.exists('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/'):
+                    os.mkdir('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/')
+                text_with_punc = open('files/results' + '/' + dir + '/' + dir + f'_split_{i}' + '/1best_recog/text_with_punc', 'w', encoding='utf-8')
+                text_with_punc.close()
+                print("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path))
+                logger.collect("%s 可能原因：视频片段没有声音。文件路径： %s, 将创建空文本文件以确保程序正确运行。" % (e, file_path), logging.WARNING)
+
         print("解析视频文件 %s 已完成" % dir)
         logger.collect("解析视频文件 %s 已完成" % dir, logging.INFO)
         check_result = check('files/split_audio' + dir, 'files/results/' + dir)
@@ -124,13 +129,13 @@ def main(i):
             print("视频文件 %s 解析不完整，系统将自动删除。" % dir)
             logger.collect("视频文件 %s 解析不完整，系统将自动删除。" % dir, logging.INFO)
             os.remove('files/results/' + dir)
-                 
+
     print("第 %d 个进程的全部视频解析完成" % i)
 
 if __name__ == '__main__':
     results = ray.get([main.remote(i) for i in range(10)])
     print(results)
-    
+
     # thread1 = threading.Thread(target=main, args=(0,))
     # thread2 = threading.Thread(target=main, args=(1,))
     # thread3 = threading.Thread(target=main, args=(2,))
